@@ -9,7 +9,7 @@ import Checkout from "./pages/checkout/checkout.component";
 import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { auth, createUserProfileDoc } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 import { selectCurrentUser } from "./redux/user/user.selectors";
 
@@ -19,7 +19,7 @@ class App extends React.Component {
   componentDidMount() {
     this.unsubcribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
-        const userRef = await createUserProfileDoc(userAuth);
+        const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot((snapshot) => {
           this.props.setCurrentUser({
@@ -42,7 +42,7 @@ class App extends React.Component {
         <Header></Header>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/shop" component={ShopPage} />
+          <Route path="/shop" component={ShopPage} />
           <Route exact path="/checkout" component={Checkout} />
           <Route
             exact
